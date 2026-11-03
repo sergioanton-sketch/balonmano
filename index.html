@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Marcador de balonmano</title>
+<title>Handbol Alzira · Estadísticas</title>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#14213D">
+<meta name="theme-color" content="#2F318C">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Balonmano">
+<meta name="apple-mobile-web-app-title" content="Handbol Alzira">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
 <style>
-:root{--bg:#F1F2EE;--surface:#fff;--ink:#14213D;--mute:#5b6577;--line:#d9dce2;--a:#1F4FD8;--b:#C96A00;--on:#fff;
+:root{--bg:#F1F2EE;--surface:#fff;--ink:#14213D;--mute:#5b6577;--line:#d9dce2;--brand:#2F318C;--club:#AB131A;--rival:#4B5563;--on:#fff;
 color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1424;--surface:#18203A;--ink:#EEF1F8;--mute:#9aa5bd;--line:#2a3452;--a:#7FA0FF;--b:#FFA733;--on:#0E1424;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0E1424;--surface:#18203A;--ink:#EEF1F8;--mute:#9aa5bd;--line:#2a3452;--a:#7FA0FF;--b:#FFA733;--on:#0E1424;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1424;--surface:#18203A;--ink:#EEF1F8;--mute:#9aa5bd;--line:#2a3452;--brand:#9EA2FF;--club:#FF6B70;--rival:#A3AEC2;--on:#0E1424;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1424;--surface:#18203A;--ink:#EEF1F8;--mute:#9aa5bd;--line:#2a3452;--brand:#9EA2FF;--club:#FF6B70;--rival:#A3AEC2;--on:#0E1424;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.4 Barlow,system-ui,sans-serif}
@@ -29,12 +29,12 @@ main{max-width:640px;margin:0 auto;padding:12px}
 .clock{font:700 40px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums}
 .half{color:var(--mute);font-size:14px}
 button{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:44px}
-button:focus-visible,input:focus-visible{outline:3px solid var(--c,var(--a));outline-offset:2px}
-.primary{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+button:focus-visible,input:focus-visible{outline:3px solid var(--c,var(--brand));outline-offset:2px}
+.primary{background:var(--brand);color:var(--on);border-color:var(--brand);font-weight:600}
 .row{display:flex;gap:6px;flex-wrap:wrap}
 .tabs{display:flex;gap:4px;margin:14px 0 10px;border-bottom:2px solid var(--line)}
 .tabs button{flex:1;border:0;border-radius:8px 8px 0 0;background:none;color:var(--mute);font-weight:600}
-.tabs button.on{color:var(--ink);box-shadow:inset 0 -3px var(--ink)}
+.tabs button.on{color:var(--ink);box-shadow:inset 0 -3px var(--brand)}
 h2{font:700 22px 'Barlow Condensed',sans-serif;margin:14px 0 6px;color:var(--c)}
 .chips button{min-width:48px;padding:8px 10px}
 .chips button.on{background:var(--c);color:var(--on);border-color:var(--c);font-weight:600}
@@ -59,6 +59,18 @@ tr.tot td{font-weight:700;border-bottom:0}
 .empty{color:var(--mute);padding:16px;text-align:center}
 footer{margin:20px 0 8px;display:flex;justify-content:space-between;gap:8px}
 @media (max-width:420px){.score{font-size:56px}.clock{font-size:32px}}
+.tabs button{padding:10px 2px;font-size:14px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet{background:var(--bg);width:100%;max-width:640px;border-radius:14px 14px 0 0;padding:12px 12px calc(12px + env(safe-area-inset-bottom,0px));max-height:100%;overflow-y:auto}
+.goal{width:100%;display:block;border-radius:8px;margin:6px 0 10px;touch-action:manipulation}
+.top{display:flex;align-items:center;gap:12px;margin:0 0 10px}
+.badge{background:#fff;border-radius:50%;width:56px;height:56px;display:grid;place-items:center;flex:none;box-shadow:0 0 0 2px var(--line)}
+.badge img{width:48px;height:48px;object-fit:contain}
+.club{font:700 28px/1 'Barlow Condensed',sans-serif;color:var(--brand);text-transform:uppercase;letter-spacing:.02em}
+.sub{color:var(--mute);font-size:14px}
+.seg{display:flex;gap:6px;align-items:center;margin:0 0 10px;color:var(--mute);font-size:14px}
+.seg button{padding:6px 12px;min-height:36px}
+.seg button.on{background:var(--club);color:var(--on);border-color:var(--club);font-weight:600}
 </style>
 </head>
 <body>
@@ -66,25 +78,75 @@ footer{margin:20px 0 8px;display:flex;justify-content:space-between;gap:8px}
 <script>
 const ACT=[['gol','Gol','G'],['fallo','Lanzamiento fallado','F'],['parada','Parada','P'],['asist','Asistencia','A'],['perdida','Pérdida','Pé'],['robo','Robo','R'],['dos','Exclusión 2 min',"2'"],['amarilla','Tarjeta amarilla','Am'],['roja','Tarjeta roja','Ro'],['tm','Tiempo muerto','TM']];
 const KEY='balonmano-v1', HALF=1800;
-let S={names:['Local','Visitante'],ros:[[],[]],ev:[],half:1,secs:0,run:false,team:0,pl:null,tab:'reg'};
-try{const r=localStorage.getItem(KEY);if(r){S=Object.assign(S,JSON.parse(r));S.run=false}}catch(e){}
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+let S={names:['Handbol Alzira','Visitante'],ros:[[],[]],ev:[],half:1,secs:0,run:false,team:0,pl:null,tab:'reg',date:today(),pending:null,club:0};
+try{const r=localStorage.getItem(KEY);if(r){S=Object.assign(S,JSON.parse(r));S.run=false;S.pending=null}}catch(e){}
 let armed=false;
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
-const col=t=>t?'var(--b)':'var(--a)';
+const col=t=>S.club===t?'var(--club)':'var(--rival)';
 const cnt=(t,type,p)=>S.ev.filter(e=>e.team===t&&e.type===type&&(p===undefined||e.pl===p)).length;
 const label=type=>ACT.find(a=>a[0]===type)[1];
 function who(e){return esc(S.names[e.team])+(e.pl!==null?' · n.º '+e.pl:'')}
 function set(o){Object.assign(S,o);save();render()}
-function add(type){S.ev.push({type,team:S.team,pl:type==='tm'?null:S.pl,t:S.secs,h:S.half});save();render()}
+function setClub(i){const d=['Local','Visitante'],C='Handbol Alzira';
+ if(S.names[i]===d[i])S.names[i]=C;
+ if(S.names[1-i]===C)S.names[1-i]=d[1-i];
+ S.club=i;save();render()}
+function headerHtml(){return '<div class="top"><span class="badge"><img src="icons/escudo.png" alt="Escudo del Handbol Alzira" width="48" height="48"></span><div><div class="club">Handbol Alzira</div><div class="sub">Estadísticas de partido</div></div></div>'
+ +'<div class="seg" role="group" aria-label="Nuestro equipo en este partido"><span>Jugamos como</span>'+['Local','Visitante'].map((n,i)=>'<button class="'+(S.club===i?'on':'')+'" aria-pressed="'+(S.club===i)+'" onclick="setClub('+i+')">'+n+'</button>').join('')+'</div>'}
+function act(type){if(type==='gol'||type==='fallo'||type==='parada')set({pending:type});else add(type)}
+function add(type,pos){S.ev.push(Object.assign({type,team:S.team,pl:type==='tm'?null:S.pl,t:S.secs,h:S.half},pos||{}));S.pending=null;save();render()}
+function shot(ev){const r=ev.currentTarget.getBoundingClientRect();
+ const x=Math.round(((ev.clientX-r.left)/r.width*360-30)/3),y=Math.round(((ev.clientY-r.top)/r.height*260-30)/2);
+ add(S.pending,{x:Math.max(-10,Math.min(110,x)),y:Math.max(-15,Math.min(115,y))})}
+function zona(e){if(e.x===undefined)return '';if(e.x<0||e.x>100||e.y<0||e.y>100)return 'fuera';
+ return (e.y<34?'alta':e.y<67?'media':'baja')+' '+(e.x<34?'izquierda':e.x<67?'centro':'derecha')}
+function goalSVG(pts,tap){
+ let s='<svg class="goal" viewBox="0 0 360 260" role="img" aria-label="Portería vista desde el tirador"'+(tap?' onclick="shot(event)"':'')+'>'
+ +'<rect width="360" height="260" style="fill:var(--line);opacity:.35"/><rect x="30" y="30" width="300" height="200" style="fill:var(--surface)"/>';
+ for(let i=1;i<3;i++)s+='<path d="M'+(30+100*i)+' 30V230M30 '+(30+200*i/3)+'H330" style="stroke:var(--line)" stroke-width="2" stroke-dasharray="6 6"/>';
+ s+='<path d="M30 230V30H330V230" fill="none" style="stroke:var(--ink)" stroke-width="8" stroke-linejoin="round"/>';
+ pts.forEach(p=>{const cx=30+p.x*3,cy=30+p.y*2;
+  s+=p.type==='fallo'?'<path d="M'+(cx-7)+' '+(cy-7)+'l14 14m0-14l-14 14" fill="none" style="stroke:'+p.c+'" stroke-width="4" stroke-linecap="round"/>'
+   :'<circle cx="'+cx+'" cy="'+cy+'" r="8" stroke-width="'+(p.type==='gol'?2:4)+'" style="fill:'+(p.type==='gol'?p.c:'none')+';stroke:'+(p.type==='gol'?'var(--surface)':p.c)+'"/>'});
+ return s+'</svg>'}
+function shotMap(t){
+ const pts=S.ev.filter(e=>e.x!==undefined&&((e.team===t&&(e.type==='gol'||e.type==='fallo'))||(e.team!==t&&e.type==='parada'))).map(e=>({x:e.x,y:e.y,type:e.type,c:col(t)}));
+ return '<p class="note" style="margin-top:12px"><b>Lanzamientos de '+esc(S.names[t])+'</b> (vista del tirador): ● gol · ✕ fallado · ○ parado por el portero rival</p>'+goalSVG(pts)}
+const fname=k=>('balonmano_'+S.names[0]+'_vs_'+S.names[1]+'_'+S.date+'_'+k).replace(/[^\w.-]+/g,'_');
+const csv=rows=>'\uFEFF'+rows.map(r=>r.map(v=>{v=String(v??'');return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(';')).join('\r\n');
+const msg=t=>{const n=document.getElementById('toast');if(n)n.textContent=t};
+async function share(name,mime,content,isText){
+ try{
+  if(isText){if(navigator.share){await navigator.share({title:name,text:content});return}await navigator.clipboard.writeText(content);msg('Resumen copiado al portapapeles');return}
+  const file=new File([content],name,{type:mime});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:mime}));a.download=name;document.body.appendChild(a);a.click();a.remove();msg('Archivo descargado: '+name);
+ }catch(e){if(e.name!=='AbortError')msg('No se pudo compartir. Prueba de nuevo.')}}
+function exportEv(){share(fname('eventos')+'.csv','text/csv',csv([['fecha','equipo','rival','parte','minuto','dorsal','accion','zona','x_pct','y_pct']].concat(S.ev.map(e=>[S.date,S.names[e.team],S.names[1-e.team],e.h,fmt(e.t),e.pl??'',label(e.type),zona(e),e.x??'',e.y??'']))))}
+function exportSum(){
+ const rows=[['fecha','equipo','dorsal'].concat(ACT.map(a=>a[1].toLowerCase()),['eficacia_lanz_pct'])];
+ for(const t of [0,1]){
+  const pl=[...new Set([...S.ros[t],...S.ev.filter(e=>e.team===t&&e.pl!==null).map(e=>e.pl)])].sort((a,b)=>a-b);
+  pl.concat([null]).forEach(p=>{const r=ACT.map(a=>cnt(t,a[0],p));if(p!==null||r.some(x=>x))rows.push([S.date,S.names[t],p===null?'sin dorsal':p].concat(r,['']))});
+  const g=cnt(t,'gol'),sh=g+cnt(t,'fallo')+cnt(1-t,'parada');
+  rows.push([S.date,S.names[t],'TOTAL EQUIPO'].concat(ACT.map(a=>cnt(t,a[0])),[sh?Math.round(100*g/sh):'']))}
+ share(fname('resumen')+'.csv','text/csv',csv(rows))}
+function exportTxt(){const L=t=>S.names[t]+': '+ACT.map(a=>a[1]+' '+cnt(t,a[0])).join(' · ');
+ share(fname('resumen')+'.txt','text/plain',S.names[0]+' '+cnt(0,'gol')+' - '+cnt(1,'gol')+' '+S.names[1]+' ('+S.date+')\n\n'+L(0)+'\n'+L(1)+'\n\nEficacia de lanzamiento: '+S.names[0]+' '+eff(0)+' · '+S.names[1]+' '+eff(1),true)}
+function expHtml(){return '<div style="--c:var(--ink)"><h2>Compartir estadísticas</h2><label class="note" for="fd">Fecha del partido</label><div class="add"><input id="fd" type="date" style="width:auto" value="'+esc(S.date)+'" oninput="S.date=this.value;save()"></div>'
+ +'<div class="acts" style="grid-template-columns:1fr"><button class="primary" onclick="exportEv()">Eventos del partido (CSV)</button><button onclick="exportSum()">Resumen por jugador (CSV)</button><button onclick="exportTxt()">Resumen en texto (WhatsApp)</button></div>'
+ +'<p class="note" id="toast" role="status"></p>'
+ +'<p class="note">El CSV de eventos tiene una fila por acción: parte, minuto, dorsal, acción, zona de la portería y posición (x_pct e y_pct: de 0 a 100 dentro del marco; fuera de ese rango, el tiro fue fuera). Se abre en Excel o Google Sheets.</p></div>'}
 function undo(){S.ev.pop();save();render()}
 function del(i){S.ev.splice(i,1);save();render()}
 function addPlayer(){const i=document.getElementById('num');const n=parseInt(i.value,10);if(isNaN(n)||n<0||n>99)return;
  const r=S.ros[S.team];if(!r.includes(n)){r.push(n);r.sort((a,b)=>a-b)}S.pl=n;save();render()}
 function toggleRun(){S.run=!S.run;save();render()}
 function nextHalf(){set({half:S.half===1?2:1,secs:S.half===1?HALF:0,run:false})}
-function reset(){if(!armed){armed=true;render();return}armed=false;S.ev=[];S.ros=[[],[]];S.secs=0;S.half=1;S.run=false;S.pl=null;save();render()}
+function reset(){if(!armed){armed=true;render();return}armed=false;S.ev=[];S.ros=[[],[]];S.secs=0;S.half=1;S.run=false;S.pl=null;S.pending=null;S.date=today();save();render()}
 function eff(t){const g=cnt(t,'gol'),sh=g+cnt(t,'fallo')+cnt(1-t,'parada');return sh?Math.round(100*g/sh)+' % ('+g+'/'+sh+')':'sin lanzamientos'}
 function table(t){
  const players=[...new Set([...S.ros[t],...S.ev.filter(e=>e.team===t&&e.pl!==null).map(e=>e.pl)])].sort((a,b)=>a-b);
@@ -92,11 +154,11 @@ function table(t){
  let h='<div class="tw"><table><tr><th>Jugador</th>'+cols.map(a=>'<th title="'+a[1]+'">'+a[2]+'</th>').join('')+'</tr>';
  players.forEach(p=>{h+='<tr><td>n.º '+p+'</td>'+cols.map(a=>'<td>'+cnt(t,a[0],p)+'</td>').join('')+'</tr>'});
  h+='<tr class="tot"><td>Equipo</td>'+cols.map(a=>'<td>'+cnt(t,a[0])+'</td>').join('')+'</tr></table></div>';
- return '<h2 style="--c:'+col(t)+'">'+esc(S.names[t])+'</h2>'+h+'<p class="note">Eficacia de lanzamiento: '+eff(t)+'</p>';
+ return '<h2 style="--c:'+col(t)+'">'+esc(S.names[t])+'</h2>'+h+'<p class="note">Eficacia de lanzamiento: '+eff(t)+'</p>'+shotMap(t);
 }
 function render(){
  const t=S.team;
- let h='<div class="board">';
+ let h=headerHtml()+'<div class="board">';
  for(const i of [0,1]){
   h+=(i===1?'<div class="mid"><div class="clock" id="clock">'+fmt(S.secs)+'</div><div class="half">'+S.half+'.ª parte</div>'
    +'<button class="primary" onclick="toggleRun()">'+(S.run?'Pausar':'Iniciar')+'</button>'
@@ -107,21 +169,22 @@ function render(){
   if(i===0&&false)h+='';
  }
  h+='</div>';
- h+='<div class="tabs">'+[['reg','Registrar'],['est','Estadísticas'],['his','Historial']].map(x=>'<button class="'+(S.tab===x[0]?'on':'')+'" onclick="set({tab:\''+x[0]+'\'})">'+x[1]+'</button>').join('')+'</div>';
+ h+='<div class="tabs">'+[['reg','Registrar'],['est','Estadísticas'],['his','Historial'],['exp','Exportar']].map(x=>'<button class="'+(S.tab===x[0]?'on':'')+'" onclick="set({tab:\''+x[0]+'\'})">'+x[1]+'</button>').join('')+'</div>';
  if(S.tab==='reg'){
   h+='<div style="--c:'+col(t)+'"><h2>Registrando: '+esc(S.names[t])+'</h2><div class="row chips">'
    +'<button class="'+(S.pl===null?'on':'')+'" onclick="set({pl:null})">Equipo</button>'
    +S.ros[t].map(n=>'<button class="'+(S.pl===n?'on':'')+'" onclick="set({pl:'+n+'})">'+n+'</button>').join('')+'</div>'
    +'<div class="add"><input id="num" type="number" inputmode="numeric" min="0" max="99" placeholder="Dorsal" onkeydown="if(event.key===\'Enter\')addPlayer()"><button onclick="addPlayer()">Añadir jugador</button></div>'
-   +'<div class="acts">'+ACT.map(a=>'<button class="'+(a[0]==='gol'?'gol':'')+'" onclick="add(\''+a[0]+'\')">'+a[1]+'</button>').join('')+'</div>'
+   +'<div class="acts">'+ACT.map(a=>'<button class="'+(a[0]==='gol'?'gol':'')+'" onclick="act(\''+a[0]+'\')">'+a[1]+'</button>').join('')+'</div>'
    +'<div class="row" style="margin-top:10px"><button onclick="undo()"'+(S.ev.length?'':' disabled')+'>Deshacer último</button></div></div>';
  }else if(S.tab==='est'){
   h+=table(0)+table(1)+'<p class="note">G gol · F fallado · P parada · A asistencia · Pé pérdida · R robo · 2\' exclusión · Am amarilla · Ro roja. La eficacia cuenta goles entre goles, fallos y paradas del rival.</p>';
- }else{
-  h+=S.ev.length?'<ul class="log">'+S.ev.map((e,i)=>[e,i]).reverse().map(([e,i])=>'<li><span class="t">'+fmt(e.t)+'</span><span class="w" style="color:'+col(e.team)+'"><b>'+label(e.type)+'</b><br><span style="color:var(--mute)">'+who(e)+' · '+e.h+'.ª parte</span></span><button onclick="del('+i+')" aria-label="Eliminar evento">Borrar</button></li>').join('')+'</ul>'
+ }else if(S.tab==='exp'){h+=expHtml()}else{
+  h+=S.ev.length?'<ul class="log">'+S.ev.map((e,i)=>[e,i]).reverse().map(([e,i])=>'<li><span class="t">'+fmt(e.t)+'</span><span class="w" style="color:'+col(e.team)+'"><b>'+label(e.type)+'</b><br><span style="color:var(--mute)">'+who(e)+(zona(e)?' · '+zona(e):'')+' · '+e.h+'.ª parte</span></span><button onclick="del('+i+')" aria-label="Eliminar evento">Borrar</button></li>').join('')+'</ul>'
    :'<div class="empty">Aún no hay eventos. Elige un equipo y pulsa una acción en Registrar.</div>';
  }
  h+='<footer><span class="note">Los datos se guardan en este navegador.</span><button onclick="reset()">'+(armed?'Pulsa de nuevo para borrar todo':'Nuevo partido')+'</button></footer>';
+  if(S.pending){h+='<div class="modal"><div class="sheet" style="--c:'+col(t)+'"><h2>'+label(S.pending)+' · '+esc(S.names[t])+(S.pl!==null?' · n.º '+S.pl:'')+'</h2><p class="note">Toca el punto por donde fue el tiro. Fuera del marco = fuera.</p>'+goalSVG([],true)+'<div class="row"><button onclick="add(S.pending)">Sin posición</button><button onclick="set({pending:null})">Cancelar</button></div></div></div>'}
  document.getElementById('app').innerHTML=h;
 }
 setInterval(()=>{if(S.run){S.secs++;const c=document.getElementById('clock');if(c)c.textContent=fmt(S.secs);save()}},1000);
