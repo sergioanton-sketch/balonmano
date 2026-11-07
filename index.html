@@ -208,7 +208,7 @@ function render(){
   h+=S.ev.length?'<ul class="log">'+S.ev.map((e,i)=>[e,i]).reverse().map(([e,i])=>'<li><span class="t">'+fmt(e.t)+'</span><span class="w" style="color:'+col(e.team)+'"><b>'+label(e.type)+'</b><br><span style="color:var(--mute)">'+who(e)+(zona(e)?' · '+zona(e):'')+' · '+e.h+'.ª parte</span></span><button onclick="del('+i+')" aria-label="Eliminar evento">Borrar</button></li>').join('')+'</ul>'
    :'<div class="empty">Aún no hay eventos. Elige un equipo y pulsa una acción en Registrar.</div>';
  }
- h+='<footer><span class="note">Los datos se guardan en este navegador.</span><button onclick="reset()">'+(armed?'Pulsa de nuevo para borrar todo':'Nuevo partido')+'</button></footer>';
+ h+='<footer><span class="note">Los datos se guardan en este dispositivo · versión 5</span><button onclick="reset()">'+(armed?'Pulsa de nuevo para borrar todo':'Nuevo partido')+'</button></footer>';
   if(S.pending){h+='<div class="modal"><div class="sheet" style="--c:'+col(t)+'"><h2>'+label(S.pending)+' · '+esc(S.names[t])+(S.pl!==null?' · <span class="dor">'+S.pl+'</span>':'')+'</h2><p class="note">Toca el punto por donde fue el tiro. Fuera del marco = fuera.</p>'+goalSVG([],true)+'<div class="row"><button onclick="add(S.pending)">Sin posición</button><button onclick="set({pending:null})">Cancelar</button></div></div></div>'}
  document.getElementById('app').innerHTML=h;
 }
