@@ -1,5 +1,5 @@
 // Sube VERSION cada vez que cambies index.html para que los móviles se actualicen.
-const VERSION = 'balonmano-v3';
+const VERSION = 'balonmano-v4';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/escudo.png'];
 
 self.addEventListener('install', e => {
