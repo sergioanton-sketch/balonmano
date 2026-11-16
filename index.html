@@ -116,6 +116,18 @@ table{font-size:18px}
 .mt{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px}
 .mt.cur{border-color:var(--brand);border-width:2px}
 @media (max-width:520px){.tabs{grid-template-columns:repeat(3,1fr)}.tabs button{font-size:16px}}
+.spg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:10px 0 0}
+.sph{font:700 16px 'Barlow Condensed',sans-serif;color:var(--c);text-transform:uppercase;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:8px;padding:6px 8px;margin-bottom:6px}
+.spr{display:flex;align-items:center;gap:4px;min-width:0}.spr .pn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:0}
+.spr .dor{font-size:28px;flex:none}
+.spr .cd{margin-left:auto;font:700 28px/1 'Barlow Condensed',sans-serif;font-variant-numeric:tabular-nums;color:var(--c);flex:none}
+.spr button{min-height:32px;min-width:32px;padding:0;font-size:14px;flex:none}
+.bar{display:block;height:6px;background:var(--line);border-radius:3px;margin-top:5px;overflow:hidden}
+.bar b{display:block;height:100%;background:var(--c)}
+.sp.low .cd{animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.sp.low .cd{animation:none}}
 </style>
 </head>
 <body>
@@ -229,6 +241,14 @@ function exportSeason(){const M={};
  const rows=[['jugador','dorsales','partidos','goles','tiro_fallado','tiro_parado','lanzamientos','eficacia_pct','asistencias','perdidas','robos','exclusiones_2min','amarillas','rojas','paradas_portero','goles_encajados']];
  Object.values(M).sort((a,b)=>b.v.gol-a.v.gol).forEach(o=>{const v=o.v,sh=v.gol+v.fallo+v.parado;rows.push([o.n,[...o.d].join('/'),o.pj,v.gol,v.fallo,v.parado,sh,sh?Math.round(100*v.gol/sh):'',v.asist,v.perdida,v.robo,v.dos,v.amarilla,v.roja,v.par,v.gc])});
  share('balonmano_temporada_jugadores.csv','text/csv',csv(rows))}
+const SUSP=120;
+const suspAct=()=>S.ev.map((e,i)=>({e,i})).filter(o=>o.e.type==='dos'&&!o.e.fin&&S.secs-o.e.t>=0&&S.secs-o.e.t<SUSP);
+function suspInner(){const a=suspAct();if(!a.length)return '';
+ return '<div class="spg">'+[0,1].map(t=>{const l=a.filter(o=>o.e.team===t);
+  return '<div style="--c:'+col(t)+'"><div class="sph">'+esc(S.names[t])+(l.length?' · −'+l.length:'')+'</div>'+(l.length?l.map(o=>{const r=SUSP-(S.secs-o.e.t),p=o.e.pl;
+   return '<div class="sp'+(r<=10?' low':'')+'"><div class="spr"><span class="dor">'+(p!==null?p:'–')+'</span>'+(p!==null&&nm(t,p)?'<span class="pn">'+esc(nm(t,p))+'</span>':'')+'<span class="cd">'+fmt(r)+'</span><button aria-label="Finalizar exclusión" onclick="endSusp('+o.i+')">✕</button></div><i class="bar"><b style="width:'+(100*r/SUSP)+'%"></b></i></div>'}).join(''):'<div class="note">–</div>')+'</div>'}).join('')+'</div>'}
+const updSusp=()=>{const n=document.getElementById('susp');if(n)n.innerHTML=suspInner()};
+function endSusp(i){S.ev[i].fin=1;save();render()}
 function act(type){if(type==='gol'||type==='fallo'||type==='parado')set({pending:type});else add(type)}
 function add(type,pos){S.ev.push(Object.assign({type,team:S.team,pl:type==='tm'?null:S.pl,t:S.secs,h:S.half},pos||{},(type==='gol'||type==='parado')&&S.gk[1-S.team]!==null?{g:S.gk[1-S.team]}:{}));S.pending=null;save();render()}
 function shot(ev){const r=ev.currentTarget.getBoundingClientRect();
@@ -320,6 +340,7 @@ function render(){arch();
   if(i===0&&false)h+='';
  }
  h+='</div>';
+ h+='<div id="susp">'+suspInner()+'</div>';
  h+='<div class="tabs">'+[['reg','Registrar'],['est','Estadísticas'],['his','Historial'],['par','Partidos'],['exp','Exportar']].map(x=>'<button class="'+(S.tab===x[0]?'on':'')+'" onclick="set({tab:\''+x[0]+'\'})">'+x[1]+'</button>').join('')+'</div>';
  if(S.tab==='reg'){
   h+='<div style="--c:'+col(t)+'"><h2>Registrando: '+esc(S.names[t])+'</h2><div class="row chips">'
@@ -336,11 +357,11 @@ function render(){arch();
   h+=S.ev.length?'<ul class="log">'+S.ev.map((e,i)=>[e,i]).reverse().map(([e,i])=>'<li><span class="t">'+fmt(e.t)+'</span><span class="w" style="color:'+col(e.team)+'"><b>'+label(e.type)+'</b><br><span style="color:var(--mute)">'+who(e)+(zona(e)?' · '+zona(e):'')+' · '+e.h+'.ª parte</span></span><button onclick="del('+i+')" aria-label="Eliminar evento">Borrar</button></li>').join('')+'</ul>'
    :'<div class="empty">Aún no hay eventos. Elige un equipo y pulsa una acción en Registrar.</div>';
  }
- h+='<footer><span class="note">Los datos se guardan en este dispositivo · versión 10</span><button onclick="reset()">'+(armed?'Pulsa de nuevo: se guarda este partido y empieza otro':'Nuevo partido')+'</button></footer>';
+ h+='<footer><span class="note">Los datos se guardan en este dispositivo · versión 11</span><button onclick="reset()">'+(armed?'Pulsa de nuevo: se guarda este partido y empieza otro':'Nuevo partido')+'</button></footer>';
   if(S.pending){h+='<div class="modal"><div class="sheet" style="--c:'+col(t)+'"><h2>'+label(S.pending)+' · '+esc(S.names[t])+(S.pl!==null?' · '+dn(t,S.pl):'')+'</h2><p class="note">Toca el punto por donde fue el tiro. Fuera del marco = fuera.</p>'+(S.pending==='gol'||S.pending==='parado'?'<p class="note">Portero rival: <b>'+(S.gk[1-t]!==null?dn(1-t,S.gk[1-t]):'sin marcar')+'</b></p>':'')+goalSVG([],true)+'<div class="row"><button onclick="add(S.pending)">Sin posición</button><button onclick="set({pending:null})">Cancelar</button></div></div></div>'}
  document.getElementById('app').innerHTML=h;
 }
-setInterval(()=>{if(S.run){S.secs++;const c=document.getElementById('clock');if(c)c.textContent=fmt(S.secs);save()}},1000);
+setInterval(()=>{if(S.run){S.secs++;const c=document.getElementById('clock');if(c)c.textContent=fmt(S.secs);save();updSusp();if(navigator.vibrate&&S.ev.some(e=>e.type==='dos'&&!e.fin&&S.secs-e.t===SUSP))navigator.vibrate([300,100,300])}},1000);
 render();
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
 </script>
